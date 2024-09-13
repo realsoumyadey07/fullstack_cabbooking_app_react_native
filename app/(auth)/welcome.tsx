@@ -47,7 +47,8 @@ const OnBoarding = () => {
       <CustomButton
         onPress={() => isLastSlide ? router.replace("/(auth)/signup") : swiperRef.current?.scrollBy(1)}
         title={isLastSlide ? "Get Started" : "Next Slide"}
-        className="w-11/12 my-8 " />
+        className="w-11/12 my-8 "
+      />
       <StatusBar style="dark" />
     </SafeAreaView>
   );
