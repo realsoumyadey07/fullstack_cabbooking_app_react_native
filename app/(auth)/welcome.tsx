@@ -31,7 +31,7 @@ const OnBoarding = () => {
         onIndexChanged={(index) => setActiveIndex(index)}
       >
         {onboarding.map((item: any) => (
-          <View className="flex items-center justify-center">
+          <View key={item.title} className="flex items-center justify-center">
             <Image
               source={item?.image}
               className="w-full h-[300px]"
