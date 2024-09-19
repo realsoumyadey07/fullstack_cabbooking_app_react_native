@@ -33,7 +33,7 @@ const Login = () => {
             icon={icons.email}
             labelStyle=""
             value={form.email}
-            onChange={(value) => setForm({ ...form, email: value })}
+            onChange={(value) => setForm({ ...form, email: value.nativeEvent.text })}
           />
           <InputField
             label="Password"
@@ -42,7 +42,7 @@ const Login = () => {
             labelStyle=""
             value={form.password}
             secureTextEntry
-            onChange={(value) => setForm({ ...form, password: value })}
+            onChange={(value) => setForm({ ...form, password: value.nativeEvent.text })}
             isPassword
           />
           <CustomButton

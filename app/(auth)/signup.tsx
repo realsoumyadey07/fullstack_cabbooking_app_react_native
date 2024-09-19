@@ -11,6 +11,7 @@ import ReactNativeModal from "react-native-modal"
 
 const Signup = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -22,9 +23,7 @@ const Signup = () => {
     code: ""
   })
   const onSignupPress = async () => {
-    if (!isLoaded) {
-      return
-    }
+    if (!isLoaded) return;
 
     try {
       await signUp.create({
@@ -39,14 +38,12 @@ const Signup = () => {
         state: "pending"
       })
     } catch (err: any) {
-      Alert.alert("Error: ", err.errors[0].logMessage);
+      Alert.alert("Error: ", err.errors[0].longMessage);
     }
   }
 
   const onPressVerify = async () => {
-    if (!isLoaded) {
-      return
-    }
+    if (!isLoaded) return;
     try {
       const completeSignUp = await signUp.attemptEmailAddressVerification({
         code: verification.code,
@@ -54,16 +51,25 @@ const Signup = () => {
 
       if (completeSignUp.status === 'complete') {
         //TODO: create a database user!
-        await setActive({ session: completeSignUp.createdSessionId })
+        await setActive({ session: completeSignUp.createdSessionId });
+        setVerification({
+          ...verification,
+          state: "success"
+        });
       } else {
         setVerification({
           ...verification,
           error: "Verification failed",
-          state: "faild"
+          state: "failed"
         })
       }
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2))
+      console.error(JSON.stringify(err, null, 2));
+      setVerification({
+        ...verification,
+        error: err.errors[0].longMessage,
+        state: "failed"
+      });
     }
   }
 
@@ -122,7 +128,9 @@ const Signup = () => {
         {/* Verification Modal */}
         <ReactNativeModal
           isVisible={verification.state === "pending"}
-          onModalHide={() => setVerification({ ...verification, state: "success" })}
+          onModalHide={() =>{ 
+            if(verification.state === "success") setShowSuccessModal(true);
+          }}
         >
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Text className="text-2xl font-JakartaExtraBold mb-2">
@@ -134,7 +142,7 @@ const Signup = () => {
             <InputField
              label="Code"
              icon={icons.lock}
-             placeholder="1234"
+             placeholder="123456"
              value={verification.code}
              onChange={(e)=> setVerification({...verification, code: e.nativeEvent.text})}
              keyboardType="numeric"
@@ -152,7 +160,7 @@ const Signup = () => {
           </View>
         </ReactNativeModal>
 
-        <ReactNativeModal isVisible={verification.state === "success"}>
+        <ReactNativeModal isVisible={showSuccessModal}>
           <View className="bg-white px-7 py-9 rounded-2xl min-h-[300px]">
             <Image
               source={images.check}
@@ -166,7 +174,9 @@ const Signup = () => {
             </Text>
             <CustomButton
               title="Browse Home"
-              onPress={() => router.replace("/(root)/(tabs)/home")}
+              onPress={() => {
+                setShowSuccessModal(false);
+                router.push("/(root)/(tabs)/home")}}
               className="mt-5"
             />
           </View>
