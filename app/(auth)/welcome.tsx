@@ -7,7 +7,7 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Swiper from "react-native-swiper";
 
-const OnBoarding = () => {
+export default function OnBoarding () {
   const swiperRef = useRef<Swiper>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const isLastSlide = activeIndex === onboarding.length - 1;
@@ -54,4 +54,3 @@ const OnBoarding = () => {
   );
 };
 
-export default OnBoarding;

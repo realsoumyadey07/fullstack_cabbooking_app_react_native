@@ -1,7 +1,7 @@
 import { Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const History = ()=> {
+export default function History () {
      return (
           <SafeAreaView>
                <Text>History</Text>
@@ -9,4 +9,3 @@ const History = ()=> {
      )
 }
 
-export default History;

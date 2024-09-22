@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton";
 import InputField from "@/components/InputField";
 import OAuth from "@/components/OAuth";
 import { icons, images } from "@/constants";
+import { fetchAPI } from "@/lib/fetch";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -9,7 +10,7 @@ import { useState } from "react";
 import { Alert, Image, ScrollView, Text, View } from "react-native";
 import ReactNativeModal from "react-native-modal"
 
-const Signup = () => {
+export default function Signup() {
   const { isLoaded, signUp, setActive } = useSignUp();
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [form, setForm] = useState({
@@ -51,6 +52,14 @@ const Signup = () => {
 
       if (completeSignUp.status === 'complete') {
         //TODO: create a database user!
+        await fetchAPI('(api)/user', {
+          method: "POST",
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            clerkId: completeSignUp.createdUserId
+          })
+        })
         await setActive({ session: completeSignUp.createdSessionId });
         setVerification({
           ...verification,
@@ -187,4 +196,3 @@ const Signup = () => {
   );
 };
 
-export default Signup;

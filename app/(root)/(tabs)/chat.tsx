@@ -1,7 +1,7 @@
 import { Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const Chat = ()=> {
+export default function Chat () {
      return (
           <SafeAreaView>
                <Text>Chat</Text>
@@ -9,4 +9,3 @@ const Chat = ()=> {
      )
 }
 
-export default Chat;

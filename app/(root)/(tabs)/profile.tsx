@@ -1,7 +1,7 @@
 import { Text } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 
-const Profile = ()=> {
+export default function Profile () {
      return (
           <SafeAreaView>
                <Text>Profile</Text>
@@ -9,4 +9,3 @@ const Profile = ()=> {
      )
 }
 
-export default Profile;
