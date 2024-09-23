@@ -52,7 +52,7 @@ export default function Signup() {
 
       if (completeSignUp.status === 'complete') {
         //TODO: create a database user!
-        await fetchAPI('(api)/user', {
+        await fetchAPI('/(api)/user', {
           method: "POST",
           body: JSON.stringify({
             name: form.name,
